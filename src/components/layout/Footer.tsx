@@ -55,7 +55,7 @@ export function Footer() {
                 href={`https://wa.me/${phoneClean}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-[#25D366] transition-colors"
+                className="text-muted-foreground transition-colors hover:text-[#25D366]"
                 aria-label="WhatsApp"
               >
                 <FaWhatsapp size={18} />

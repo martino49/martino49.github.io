@@ -20,51 +20,57 @@ import {
   SiPaypal,
   SiStripe,
 } from 'react-icons/si';
-import { FaCashRegister, FaMobileScreen, FaServer, FaDatabase, FaCloud } from 'react-icons/fa6';
+import {
+  FaCashRegister,
+  FaMobileScreen,
+  FaServer,
+  FaDatabase,
+  FaCloud,
+} from 'react-icons/fa6';
 import type { IconType } from 'react-icons';
 
 const fadeUp = fadeUpVariants(40, 0.7, 0.1);
 
 const SKILL_MAP: Record<string, { icon: IconType; color: string }> = {
   // Frontend
-  'React': { icon: SiReact, color: '#61DAFB' },
-  'JavaScript': { icon: SiJavascript, color: '#F7DF1E' },
-  'TypeScript': { icon: SiTypescript, color: '#3178C6' },
-  'EJS': { icon: SiEjs, color: '#A91E50' },
+  React: { icon: SiReact, color: '#61DAFB' },
+  JavaScript: { icon: SiJavascript, color: '#F7DF1E' },
+  TypeScript: { icon: SiTypescript, color: '#3178C6' },
+  EJS: { icon: SiEjs, color: '#A91E50' },
   'Tailwind CSS': { icon: SiTailwindcss, color: '#06B6D4' },
-  'HTML': { icon: SiHtml5, color: '#E34F26' },
-  'CSS': { icon: SiCss, color: '#1572B6' },
+  HTML: { icon: SiHtml5, color: '#E34F26' },
+  CSS: { icon: SiCss, color: '#1572B6' },
   // Backend
   'Node.js': { icon: SiNodedotjs, color: '#339933' },
-  'Express': { icon: SiExpress, color: '#FFFFFF' },
+  Express: { icon: SiExpress, color: '#FFFFFF' },
   'REST APIs': { icon: FaServer, color: '#60A5FA' },
   'Socket.io': { icon: SiSocketdotio, color: '#010101' },
   // Databases
-  'MySQL': { icon: SiMysql, color: '#4479A1' },
-  'PostgreSQL': { icon: SiPostgresql, color: '#4169E1' },
-  'Supabase': { icon: SiSupabase, color: '#3FCF8E' },
+  MySQL: { icon: SiMysql, color: '#4479A1' },
+  PostgreSQL: { icon: SiPostgresql, color: '#4169E1' },
+  Supabase: { icon: SiSupabase, color: '#3FCF8E' },
   // Mobile
-  'Kotlin': { icon: SiKotlin, color: '#7F52FF' },
-  'MVVM': { icon: FaMobileScreen, color: '#A855F7' },
-  'Room': { icon: FaDatabase, color: '#FB923C' },
+  Kotlin: { icon: SiKotlin, color: '#7F52FF' },
+  MVVM: { icon: FaMobileScreen, color: '#A855F7' },
+  Room: { icon: FaDatabase, color: '#FB923C' },
   // Payments
   'M-Pesa (Daraja)': { icon: FaCashRegister, color: '#4CAF50' },
-  'Paystack': { icon: SiStripe, color: '#00A3FF' },
-  'PayPal': { icon: SiPaypal, color: '#003087' },
-  'Stripe': { icon: SiStripe, color: '#635BFF' },
+  Paystack: { icon: SiStripe, color: '#00A3FF' },
+  PayPal: { icon: SiPaypal, color: '#003087' },
+  Stripe: { icon: SiStripe, color: '#635BFF' },
   // Deployment
-  'Vercel': { icon: SiVercel, color: '#000000' },
-  'Render': { icon: FaCloud, color: '#46E3B7' },
-  'AlwaysData': { icon: FaCloud, color: '#6366F1' },
+  Vercel: { icon: SiVercel, color: '#000000' },
+  Render: { icon: FaCloud, color: '#46E3B7' },
+  AlwaysData: { icon: FaCloud, color: '#6366F1' },
 };
 
 const CATEGORY_ICONS: Record<string, { icon: IconType; color: string }> = {
-  'Frontend': { icon: SiReact, color: '#61DAFB' },
-  'Backend': { icon: FaServer, color: '#60A5FA' },
-  'Databases': { icon: FaDatabase, color: '#4169E1' },
-  'Mobile': { icon: FaMobileScreen, color: '#7F52FF' },
-  'Payments': { icon: FaCashRegister, color: '#4CAF50' },
-  'Deployment': { icon: FaCloud, color: '#46E3B7' },
+  Frontend: { icon: SiReact, color: '#61DAFB' },
+  Backend: { icon: FaServer, color: '#60A5FA' },
+  Databases: { icon: FaDatabase, color: '#4169E1' },
+  Mobile: { icon: FaMobileScreen, color: '#7F52FF' },
+  Payments: { icon: FaCashRegister, color: '#4CAF50' },
+  Deployment: { icon: FaCloud, color: '#46E3B7' },
 };
 
 export function Skills() {

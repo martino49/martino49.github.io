@@ -44,7 +44,8 @@ export function ContactToast() {
                   Let&apos;s work together
                 </p>
                 <p className="text-muted-foreground mt-0.5 text-xs leading-relaxed">
-                  Have a project in mind? I&apos;m open to opportunities and freelance work.
+                  Have a project in mind? I&apos;m open to opportunities and
+                  freelance work.
                 </p>
                 <div className="mt-3 flex items-center gap-2">
                   <a
@@ -58,7 +59,7 @@ export function ContactToast() {
                       href={`https://wa.me/${phoneClean}?text=${encodeURIComponent('Hi Martin, I found your portfolio and want to connect.')}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-[#25D366] text-white flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-opacity hover:opacity-90"
+                      className="flex items-center gap-1.5 rounded-lg bg-[#25D366] px-3 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90"
                     >
                       <FaWhatsapp size={12} />
                       WhatsApp

@@ -121,83 +121,80 @@ export function About() {
           <div className="grid items-center gap-12 md:grid-cols-2">
             {/* Left col */}
             <div>
-            <motion.p
-              variants={fadeUp}
-              custom={0}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-80px' }}
-              className="text-primary mb-4 font-mono text-xs font-medium tracking-widest uppercase"
-            >
-              About Me
-            </motion.p>
-            <motion.h2
-              variants={fadeUp}
-              custom={1}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-80px' }}
-              className="section-heading mb-6 text-4xl leading-tight md:text-5xl"
-            >
-              <span className="text-foreground">The person behind</span>
-              <br />
-              <span className="text-foreground">the </span>
-              <em className="text-primary font-light">keyboard.</em>
-            </motion.h2>
-            <motion.div
-              variants={fadeUp}
-              custom={2}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-80px' }}
-              className="mb-8 h-px w-12"
-              style={{
-                background:
-                  'linear-gradient(90deg, hsl(var(--primary)), transparent)',
-              }}
-            />
-            <motion.div
-              variants={fadeUp}
-              custom={3}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-80px' }}
-              className="text-base leading-relaxed font-light"
-            >
-              {config.about.split('\n\n').map((paragraph, i) => (
-                <p
-                  key={i}
-                  className="text-foreground/70 mb-4 last:mb-0"
-                >
-                  {paragraph}
-                </p>
-              ))}
-            </motion.div>
-
-            {config.email && (
-              <motion.a
+              <motion.p
                 variants={fadeUp}
-                custom={4}
+                custom={0}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-80px' }}
-                href={`mailto:${config.email}`}
-                className="text-primary mt-6 inline-flex items-center gap-2 text-sm font-medium hover:underline"
-                data-testid="link-email"
+                className="text-primary mb-4 font-mono text-xs font-medium tracking-widest uppercase"
               >
-                <Mail size={14} />
-                {config.email}
-              </motion.a>
-            )}
-          </div>
+                About Me
+              </motion.p>
+              <motion.h2
+                variants={fadeUp}
+                custom={1}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-80px' }}
+                className="section-heading mb-6 text-4xl leading-tight md:text-5xl"
+              >
+                <span className="text-foreground">The person behind</span>
+                <br />
+                <span className="text-foreground">the </span>
+                <em className="text-primary font-light">keyboard.</em>
+              </motion.h2>
+              <motion.div
+                variants={fadeUp}
+                custom={2}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-80px' }}
+                className="mb-8 h-px w-12"
+                style={{
+                  background:
+                    'linear-gradient(90deg, hsl(var(--primary)), transparent)',
+                }}
+              />
+              <motion.div
+                variants={fadeUp}
+                custom={3}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-80px' }}
+                className="text-base leading-relaxed font-light"
+              >
+                {config.about.split('\n\n').map((paragraph, i) => (
+                  <p key={i} className="text-foreground/70 mb-4 last:mb-0">
+                    {paragraph}
+                  </p>
+                ))}
+              </motion.div>
 
-          {/* Right col — animated stat cards */}
-          <div className="grid grid-cols-2 gap-4">
-            {stats.map((stat, i) => (
-              <StatCard key={stat.label} stat={stat} delay={i + 1} />
-            ))}
+              {config.email && (
+                <motion.a
+                  variants={fadeUp}
+                  custom={4}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-80px' }}
+                  href={`mailto:${config.email}`}
+                  className="text-primary mt-6 inline-flex items-center gap-2 text-sm font-medium hover:underline"
+                  data-testid="link-email"
+                >
+                  <Mail size={14} />
+                  {config.email}
+                </motion.a>
+              )}
+            </div>
+
+            {/* Right col — animated stat cards */}
+            <div className="grid grid-cols-2 gap-4">
+              {stats.map((stat, i) => (
+                <StatCard key={stat.label} stat={stat} delay={i + 1} />
+              ))}
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </section>

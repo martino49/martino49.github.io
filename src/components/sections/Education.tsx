@@ -5,14 +5,29 @@ import { fadeUpVariants } from '@/lib/animation';
 
 const fadeUp = fadeUpVariants(36, 0.7, 0.12);
 
-const EDUCATION_DETAILS: Record<string, { description: string; highlights: string[] }> = {
+const EDUCATION_DETAILS: Record<
+  string,
+  { description: string; highlights: string[] }
+> = {
   'Karatina University': {
-    description: 'Pursuing a Bachelor of Science in Information Technology with focus on software development, database systems, and web technologies.',
-    highlights: ['Software Development', 'Database Systems', 'Web Technologies', 'Network Administration'],
+    description:
+      'Pursuing a Bachelor of Science in Information Technology with focus on software development, database systems, and web technologies.',
+    highlights: [
+      'Software Development',
+      'Database Systems',
+      'Web Technologies',
+      'Network Administration',
+    ],
   },
-  'Eldohub': {
-    description: 'Intensive full-stack web development training covering modern frameworks, API design, and deployment practices.',
-    highlights: ['React & Node.js', 'REST APIs', 'Database Design', 'Cloud Deployment'],
+  Eldohub: {
+    description:
+      'Intensive full-stack web development training covering modern frameworks, API design, and deployment practices.',
+    highlights: [
+      'React & Node.js',
+      'REST APIs',
+      'Database Design',
+      'Cloud Deployment',
+    ],
   },
 };
 
@@ -54,7 +69,7 @@ export function Education() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-60px' }}
-                className="border-border bg-card rounded-2xl border p-6 transition-all hover:border-primary/30 hover:shadow-lg"
+                className="border-border bg-card hover:border-primary/30 rounded-2xl border p-6 transition-all hover:shadow-lg"
                 data-testid={`education-${i}`}
               >
                 <div className="mb-4 flex items-start gap-4">

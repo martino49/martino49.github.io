@@ -218,7 +218,10 @@ export function BlogListPage() {
                       </span>
                     </div>
                   </div>
-                  <ArrowRight size={16} className="text-muted-foreground group-hover:text-primary hidden shrink-0 transition-colors sm:block" />
+                  <ArrowRight
+                    size={16}
+                    className="text-muted-foreground group-hover:text-primary hidden shrink-0 transition-colors sm:block"
+                  />
                 </motion.a>
               </motion.article>
             ))}
@@ -229,9 +232,7 @@ export function BlogListPage() {
         {allPosts.length === 0 && (
           <div className="mt-16 text-center">
             <p className="mb-4 text-5xl">✍️</p>
-            <p className="text-muted-foreground mb-2 text-lg">
-              No posts yet.
-            </p>
+            <p className="text-muted-foreground mb-2 text-lg">No posts yet.</p>
             <p className="text-muted-foreground text-sm">
               Add a{' '}
               <span className="bg-secondary text-foreground rounded px-1.5 py-0.5 font-mono text-xs">

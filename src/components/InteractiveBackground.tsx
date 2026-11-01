@@ -38,10 +38,12 @@ export function InteractiveBackground() {
     <div
       ref={glowRef}
       className="pointer-events-none fixed inset-0 z-0"
-      style={{
-        '--glow-x': '0px',
-        '--glow-y': '0px',
-      } as React.CSSProperties}
+      style={
+        {
+          '--glow-x': '0px',
+          '--glow-y': '0px',
+        } as React.CSSProperties
+      }
     >
       {/* Spotlight glow that follows cursor */}
       <div
