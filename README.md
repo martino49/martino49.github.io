@@ -35,8 +35,8 @@ A modern, responsive developer portfolio built with React, Tailwind CSS, and Vit
 
 ```bash
 # Clone the repository
-git clone https://github.com/martino49/portfolio-testting.git
-cd portfolio-testting/portfolio
+git clone https://github.com/martino49/martino-portfolio.git
+cd martino-portfolio
 
 # Install dependencies
 pnpm install
@@ -48,7 +48,7 @@ pnpm install
 # Start dev server
 pnpm dev
 
-# Open http://localhost:3000
+# Open http://localhost:3000 (or PORT env var)
 ```
 
 ### Build
