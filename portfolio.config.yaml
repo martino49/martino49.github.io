@@ -60,8 +60,8 @@ social:
 about: |
   Year 2 BSIT student at Karatina University and a full-stack developer who
   builds real software, not tutorials. Completed full-stack web development
-  training at Eldohub (August 2025), then kept building — 65+ repos and
-  projects, several worked on with other developers. Delivered a paid client
+  training at Eldohub (August 2025), then kept building — public
+  repositories and projects, several worked on with other developers. Delivered a paid client
   project (a React fundraising app, PERN stack) from idea to deployment.
 
   Strengths: full-stack web development (React, Express, Node, PostgreSQL/MySQL)
@@ -110,7 +110,7 @@ experience:
     highlights:
       - Delivered first paid client project (React fundraising app, PERN stack)
       - Built and maintain 7 portfolio projects across web, Android, and desktop
-      - 65+ repos of self-driven projects incl. payment integrations
+      - Original public projects incl. payment integrations — all linked below
 
 # ── Projects ────────────────────────────────────────────────────────────
 projects:
@@ -156,7 +156,7 @@ projects:
     description: "Built with a friend for a real client: user accounts, campaign pages, donations, and an admin view. My first paid project and proof of taking an idea from zero to deployed."
     tags: [React, Node.js, Express, PostgreSQL, Supabase, Vercel]
     liveUrl: ""
-    repoUrl: "https://github.com/martino49/fundraising-app"
+    repoUrl: ""
     featured: false
 
   - name: "LiteLink — PC ↔ Android Companion Suite"
