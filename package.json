@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config vite.config.ts --host 0.0.0.0",
-    "build": "node scripts/generate-resume.mjs && vite build --config vite.config.ts",
+    "build": "node scripts/build.mjs",
     "lint": "eslint .",
     "format-check": "prettier -c \"src/**/*.{js,jsx,ts,tsx,css,md}\"",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md}\"",
