@@ -125,6 +125,42 @@ function gitvitaeRssPlugin(rootDir: string): Plugin {
   };
 }
 
+// ── Sitemap plugin ────────────────────────────────────────────────────────────
+
+function sitemapPlugin(rootDir: string): Plugin {
+  const siteUrl = portfolioConfig.siteUrl ?? "";
+  const knownRoutes = [
+    "", "/projects", "/resume", "/blog", "/contact", "/404",
+  ];
+
+  function blogRoutes(): string[] {
+    try {
+      const files = walkMd(path.join(rootDir, "blog"));
+      return files.map((f) => {
+        const raw = readFileSync(f, "utf8");
+        const fmMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+        const data = fmMatch ? (jsYaml.load(fmMatch[1]) as Record<string, unknown>) ?? {} : {};
+        const slug = path.basename(f, ".md");
+        return (data.slug ?? slug) ? `/blog/${data.slug ?? slug}` : `/blog/${slug}`;
+      });
+    } catch {
+      return [];
+    }
+  }
+
+  return {
+    name: "gitvitae-sitemap",
+    generateBundle() {
+      const urls = [...knownRoutes, ...blogRoutes()].map((route) => {
+        const loc = route ? `${siteUrl}${route}` : siteUrl;
+        return `  <url><loc>${loc}</loc><lastmod>${new Date().toISOString()}</lastmod></url>`;
+      }).join("\n");
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+      this.emitFile({ type: "asset", fileName: "sitemap.xml", source: xml });
+    },
+  };
+}
+
 // ── HTML meta + schema plugin ─────────────────────────────────────────────────
 
 function metaAndSchemaPlugin() {
@@ -238,6 +274,7 @@ export default defineConfig({
     metaAndSchemaPlugin(),
     preloadCriticalFontsPlugin(),
     gitvitaeRssPlugin(path.resolve(import.meta.dirname)),
+    sitemapPlugin(path.resolve(import.meta.dirname)),
     ...(isReplit
       ? [
           (await import("@replit/vite-plugin-runtime-error-modal")).default(),
