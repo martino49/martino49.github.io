@@ -89,6 +89,7 @@ Self-hosted KDE-Connect-style bridge: screen mirroring, notifications, folder sy
 ## Certifications
 
 - **Full-Stack Web Development** — Eldohub, August 2025
+- **Android App Development** — Self-taught, 2025 – present
 
 ## Languages
 
