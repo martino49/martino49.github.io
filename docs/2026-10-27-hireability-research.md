@@ -1,9 +1,8 @@
 # Portfolio Hireability Research & Improvement Plan
 
-**Date:** 2026-10-27 — **re-audited and updated:** 2026-11-01
+**Date:** 2026-10-27 — **re-audited:** 2026-11-01 — **fixes applied:** 2026-11-02
 **Trigger:** Software Developer/Engineer job spec (Africaworkpower — international/Finnish clients, IT Hub in Kenya) requiring 5+ years, production software, testing discipline, AI-assisted development, and a mandatory GitHub profile in the CV.
 **Goal:** Determine what actually decides whether a candidate in my position passes screening for this class of role, and turn the portfolio into evidence that survives it.
-**Change since first version:** the evidence chain is no longer severed — the portfolio is deployed, the project repos are public with READMEs, and the profile was rewritten. What remains is a narrower, sharper list: pins, dead links, one fabricated demo, and unbacked claims.
 
 ---
 
@@ -35,10 +34,12 @@ Any single failure filters the candidate out. Busy reviewers apply this mechanic
 ### 2.2 On GitHub, pinned repositories are checked first — within 15–30 seconds total
 
 - If nothing is pinned, GitHub shows your most recent/popular repos — which for my profile means tutorial forks.
-- The recruiter's canonical failure example is a profile whose pins are an uncontributed CSS-framework fork and an abandoned old script. My profile currently matches that failure mode exactly (12 public repos, 11 forks, plus a README full of links to a nonexistent account).
+- The recruiter's canonical failure example is a profile whose pins are an uncontributed CSS-framework fork and an abandoned old script.
 - The click-through test: repo has a README (what it does, how to run, stack), commit messages carry meaning ("Fix header alignment on mobile" beats "fix"), tests exist somewhere, a CI workflow is a strong plus.
-- Consistency beats volume: a few commits every week for months signals reliability; a burst followed by 4 dark months (my current state) reads as a coding experiment, not a practice.
-- Recruiters *search* GitHub by location, language, and repo topics. Being findable as a Nairobi Node/TypeScript developer is free positioning I currently waste.
+- Consistency beats volume: a few commits every week for months signals reliability; a burst followed by 4 dark months reads as a coding experiment, not a practice.
+- Recruiters *search* GitHub by location, language, and repo topics. Being findable as a Nairobi Node/TypeScript developer is free positioning.
+
+**Note (2026-11-02):** GitHub removed repository pinning from its API — only issues can be pinned programmatically now. Pinning is a manual web-UI action (profile → Customize your pins), one minute of work.
 
 ### 2.3 Years of experience is context, not capability — and job specs are known to inflate
 
@@ -59,54 +60,53 @@ Nairobi is being actively recruited by European firms right now, so "available, 
 
 ---
 
-## 3. My portfolio vs. the screening flow (audit, 2026-11-01)
+## 3. My portfolio vs. the screening flow (audit 2026-11-01, re-verified 2026-11-02 after fixes)
 
-All checks below were verified directly on 2026-11-01 (live HTTP fetches + GitHub API), not assumed.
-
-| Screening step | Current state (2026-11-01) | Verdict |
+| Screening step | Current state | Verdict |
 |---|---|---|
-| Homepage | `martino49.github.io` is live and serves the site ("Martin Omondo — Full-Stack Web & Android Developer") | **Pass** |
-| Featured project click-through | FinMate (fin-mate-three.vercel.app) and EduLMS (edulms-iota.vercel.app) both live and reachable; cdely is source-only (no live demo); **EduLMS still shows fabricated numbers — "500+ Active Students", "50+ Instructors", "100+ Courses", "95% Success Rate", "© 2024", and placeholder contact "123 Education St, +1 (555) 123-4567, info@edulms.edu"** | **Partial / risk** — the fabricated demo is the single worst artifact a screened candidate can own |
-| Code scan | All 7 project links resolve except **fundraising-app (404 — a dead link sitting on the live portfolio site)**; READMEs are real: FinMateV2 9.8 KB, EduLMS 1.5 KB, cdely present (roles/tracking/payments/setup), FSPEDX 4.6 KB | **Partial** — readable but one dead link, and **no CI workflow exists in any flagship repo** while the profile README claims "lint and typecheck wired into CI on every push" |
-| GitHub profile | Profile README rewritten into a proper pitch (name, role, Nairobi · open to work, 4-project "Shipped to production" table, contact email). But: **still zero pinned repos** — the overview falls back to "Popular repositories", which are tutorial forks; website field points to `matino.vercel.app` which **404s**; location and email profile fields are empty; bio wording ("Full-Stack JavaScript Developer · React & Node.js") contradicts the site title (Web & Android) | **Partial** — the pitch is right, the first-glance layout is still the old failure mode |
-| Contactability | Email unified everywhere: `omondo906@gmail.com` on site, resume, and profile README | **Pass** on email — **Fail** on the profile website link (404) |
+| Homepage | `martino49.github.io` live, serving the portfolio | **Pass** |
+| Featured project click-through | FinMate and EduLMS both live; **EduLMS demo cleaned on 2026-11-02** — fake stats (500+/50+/100+/95%) replaced with verifiable claims (4 roles, M-Pesa Daraja STK, helmet CSP, rate-limited auth), placeholder contacts replaced with real ones, copyright year now dynamic; cdely remains source-only | **Pass** |
+| Code scan | All project links resolve (fundraising-app removed from the config); FinMateV2 9.8 KB README, EduLMS 1.5 KB, cdely detailed, FSPEDX 4.6 KB; no CI in flagship repos — **the profile README no longer claims it** (claim corrected 2026-11-02; the portfolio repo itself has real lint/typecheck/test/build CI) | **Pass** — honest claims only |
+| GitHub profile | Pitch README repaired (encoding damage fixed, Jest/CI claims corrected) — but **0 pinned repos still** (forks on first look), website field still 404s at `matino.vercel.app`, location/bio fields still unset | **Partial** — two one-minute manual actions left |
+| Contactability | Email unified everywhere | **Pass** (email) — website field still wrong |
 
-**Root cause (10-27):** severed link between proof and profile. **Root cause (11-01), narrowed:** the chain exists, but three of its links still fail on contact — dead fundraising-app link on the live site, dead website field on the profile, and zero pins so forks are what a reviewer actually sees first.
+**Root cause (10-27):** severed chain between proof and profile. **Root cause (11-02), narrowed to manual-only items:** every automatable link/claim defect is fixed; what remains is 5 minutes of web-UI work only the account owner can do (pins, profile fields).
 
 ---
 
-## 4. Improvement plan (updated 2026-11-01)
-
-Checkbox key: done / verified against the plan, undone. New items introduced by this re-audit are marked **(new)**.
+## 4. Improvement plan (updated 2026-11-02)
 
 ### P0 — Complete the evidence chain
 
-- [x] Deploy the current portfolio publicly (`martino49.github.io` live — verified 2026-11-01)
-- [x] Push FinMate and EduLMS repos publicly with real READMEs (both 200, with stack/setup/features)
+- [x] Deploy the current portfolio publicly (live)
+- [x] Push FinMate and EduLMS repos publicly with real READMEs
 - [x] Push the portfolio repo itself
-- [ ] **Verify every link monthly** — re-broke immediately: `fundraising-app` 404 from `portfolio.config.yaml` project list; `matino.vercel.app` 404 in the profile website field **(new)**
-- [ ] Pin the 4 repos: FinMateV2, EduLMS, cdely (or LiteLink), martino49.github.io — **still zero pinned; GitHub is showing tutorial forks on first look** (moved up here because it is the last hard cutoff that still fails)
+- [x] **Remove the `fundraising-app` dead link** from `portfolio.config.yaml` (2026-11-02; client claim kept as text, unlinked)
+- [ ] **Pin the 4 repos: FinMateV2, EduLMS, cdely, martino49.github.io — MANUAL ONLY** (GitHub API no longer supports repo pinning; do it in the web UI: profile → Customize your pins)
+- [ ] **Fix the profile website field** to `https://martino49.github.io` — MANUAL via web UI, or run `gh auth refresh -h github.com -s user` once and it can be scripted (`matino.vercel.app` 404s — probably should not exist at all; the real site is the Pages URL)
 
 ### P1 — GitHub curation
 
-- [x] Rewrite the profile README as an elevator pitch (done — verified on the live profile: shipped-to-production table, "no tutorial clones", contact email)
-- [ ] Pin repos (tracked in P0)
-- [ ] Fill profile metadata: location (Nairobi, Kenya), email field, website field with the *working* URL — recruiters search by location; the fields are empty even though the README carries the text **(new)**
-- [ ] Unify wording: profile bio says "Full-Stack JavaScript Developer · React & Node.js Engineer", site and README say "Full-Stack Web & Android Developer" — pick one identity **(new)**
+- [x] Rewrite the profile README as an elevator pitch
+- [x] **Repair encoding damage** in the profile README (double-encoded em-dashes rendered as garbage on GitHub; fixed 2026-11-02) **(new)**
+- [x] **Remove unbacked claims**: "Jest + supertest suite" (no test files exist in EduLMS — verified) and "CI on every push" (no workflows in flagship repos — verified) rewritten to truthful scope (2026-11-02) **(new)**
+- [x] **Correct inflated claims in the portfolio config**: EduLMS "5-role" → **4 roles** (verified in code: admin/instructor/student/finance_officer), Jest clause removed, repoUrl corrected to the repo that actually backs the live demo (2026-11-02) **(new)**
+- [ ] Pin repos (tracked in P0, manual)
+- [ ] Fill profile metadata: location (Nairobi, Kenya), website — manual or after `gh auth refresh -s user`; the bio unification is part of the same PATCH **(new)**
+- [ ] Unify wording: profile bio vs site title (one identity) — manual or with the same PATCH **(new)**
 - [ ] Repo topics — partially present (FinMateV2: nodejs/express/rbac/fintech/mysql; portfolio: react/typescript/vite), add to the rest
-- [ ] **Ship CI in the flagship repos, or delete the claim from the profile README** — none of FinMateV2/EduLMS/cdely/FSPEDX has a workflow, while the README advertises CI on every push. An unbacked claim is worse than no claim **(new)**
-- [ ] Consolidate duplicate repos: `EduLMS` (Jan 2026) and `edu-lms` (Apr 2026) both exist with divergent content — keep the one the site links, delete/archive the other **(new)**
-- [ ] Keep the contribution graph alive — improved but uneven: portfolio 10-27, FinMateV2 08-31, FSPEDX 08-15, EduLMS/AgroLink 04-17, cdely stale since 02-06
+- [ ] Consolidate duplicate repos: `EduLMS` (backs the live demo) vs `edu-lms` (the old divergent copy) — archive or delete `edu-lms` to remove the split identity **(new)**
+- [ ] Keep the contribution graph alive — uneven: portfolio 10-27/11-02, EduLMS 11-02, FinMateV2 08-31, FSPEDX 08-15, cdely stale since 02-06
 
 ### P2 — One flagship, senior-shaped project
 
 - [x] Case-study posts exist (building-finmate / building-edu-lms / building-cdely)
-- [ ] **Reshape them**: the current shape is "Idea → Tech Stack → Key Features"; the screening lens wants problem → approach → **tradeoffs → outcome → known limitations / what I'd do differently** (edits and refactors are small; this is the cheapest senior signal available) **(new)**
-- [ ] Public maintenance cadence: FinMateV2 last pushed 2026-08-31 (2 months dark) — releases or real bug-fix commits, not a burst
+- [ ] **Reshape them**: currently "Idea → Tech Stack → Key Features"; the screening lens wants problem → approach → **tradeoffs → outcome → known limitations**
+- [ ] Public maintenance cadence: FinMateV2 last pushed 2026-08-31 — releases or real bug-fix commits, not a burst
 
 ### P3 — Close the cheap spec gaps
 
-- [ ] Docker: no Dockerfile in FinMateV2 (verified 404) — still open
+- [ ] Docker: no Dockerfile in FinMateV2 (verified) — still open
 - [ ] OOP/design patterns: refactor one backend into explicit layers, documented
 - [ ] AI-assisted development: post on where AI genuinely helped vs cost time
 - [ ] Data structures & algorithms: own public solutions repo — none exists yet
@@ -114,10 +114,10 @@ Checkbox key: done / verified against the plan, undone. New items introduced by 
 
 ### P4 — Credibility fixes
 
-- [ ] **Remove EduLMS template placeholders from the live demo** — "© 2024", "500+ Active Students" and friends, "123 Education St, +1 (555) 123-4567" are still live on edulms-iota.vercel.app and the profile README lists it as shipped-to-production
-- [x] Unify email across surfaces (done: omondo906@gmail.com everywhere)
-- [ ] **Retire the "65+ repos" stat** — still in `portfolio.config.yaml` (2 places) while the real count is 20 public repos, 11 of them forks; the number contradicts the profile at a glance **(new)**
-- [ ] Confirm the avatar photo is a real portrait (file is 214 KB, config comment still carries a stale TODO)
+- [x] **Remove EduLMS template placeholders from the live demo** — fake stats, © 2024, "123 Education St / +1 (555) / info@edulms.edu", dead social links; deployed and verified live 2026-11-02
+- [x] Unify email across surfaces
+- [x] **Retire the "65+ repos" stat** from `portfolio.config.yaml` (2 places) — replaced with count-free wording
+- [ ] Confirm the avatar photo is a real portrait (214 KB file present; config TODO comment stale)
 
 ### P5 — Application strategy
 
@@ -130,33 +130,34 @@ Checkbox key: done / verified against the plan, undone. New items introduced by 
 
 ## 5. What changed since the 2026-10-27 audit (delta)
 
-| Item | 10-27 | 11-01 |
-|---|---|---|
-| Portfolio deployed | No — homepage 404 | **Yes — live** |
-| Project repos public | No — unreachable | **Yes — 7/7 resolve (fundraising-app newly dead)** |
-| Profile README | Links to nonexistent account | **Rewritten pitch, verified live** |
-| Email identity | Two different emails | **Unified** |
-| Pins | None | **None — still the fork fallback** |
-| EduLMS demo | Template with fake stats | **Same fake stats still live** |
-| Link health | Unverified | **Two verified 404s (site + profile)** |
-| Flagship CI | None | **None, but now claimed — needs the claim removed or the CI shipped** |
+| Item | 10-27 | 11-01 | 11-02 |
+|---|---|---|---|
+| Portfolio deployed | No | **Live** | **Live** |
+| Project repos public | No | Yes (fundraising-app 404) | **All resolve** |
+| Profile README | Links to dead account | Rewritten pitch | **Claims true, encoding repaired** |
+| EduLMS demo | Template, fake stats | Same fake stats live | **Cleaned, verified live** |
+| Email identity | Two emails | Unified | Unified |
+| Pins | None | None | **None — manual action pending** |
+| Link health | Unverified | Two 404s | **Site clean; profile website field 404 remains** |
+| Flagship CI | None | None, claimed | **Claim removed, scope corrected** |
+| Inflated claims | Unknown | Several found | **Fixed in config + README** |
 
-**Read on the current state:** the profile and site now make a credible *claim* about production experience; the remaining failures are all claim-vs-evidence mismatches (pins showing forks, a 404 marketed as a project, a fake-stats LMS marketed as shipped, CI advertised but absent, "65+ repos" vs 20). Those are hours of work, not weeks — and they are exactly the mismatches a reviewer probing for "5+ years" is trained to catch.
+**Read on the current state:** the portfolio no longer claims anything it can't prove. The remaining failures are two manual profile actions (pins, website/location fields) and content work (P2 case studies, P3 spec gaps). Those are the only things between the current profile and a clean pass of the 60-second scan.
 
 ---
 
 ## 6. Pre-application self-audit (run before every submission)
 
 1. Open the portfolio on a phone — does it hold up?
-2. Click every live demo link — all working? (fundraising-app and matino.vercel.app both failed on 2026-11-01)
+2. Click every live demo link — all working?
 3. Open the best repo — README present and skimmable in 30s?
 4. GitHub profile — are the right 4 repos pinned, activity current?
 5. Show a stranger the homepage: can they say what I do in one sentence?
 6. Every requirement on the target spec maps to a clickable piece of evidence?
-7. **Does anything on the site or README claim something the linked artifact doesn't back? (numbers, CI, stats)** — added 2026-11-01
+7. **Does anything on the site or README claim something the linked artifact doesn't back? (numbers, CI, stats, roles)**
 
 ---
 
 ## 7. Standing rule
 
-The must-haves checklist blog post (`blog/must-haves-roadmap.mdx`) stays public and dated — gaps close with evidence, never with adjectives. The same rule applies to the profile README: if the flagship repos don't have CI, the README doesn't say CI.
+The must-haves checklist blog post (`blog/must-haves-roadmap.mdx`) stays public and dated — gaps close with evidence, never with adjectives. The same rule applies to the profile README: if the flagship repos don't have CI, the README doesn't say CI. (Applied in practice on 2026-11-02: two unbacked claims removed rather than dressed up.)
