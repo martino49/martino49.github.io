@@ -1,70 +1,68 @@
 ---
 title: "Building Cdely: A Multi-Vendor E-Commerce Platform"
 date: "2026-08-05"
-tags: ["React", "Node.js", "PostgreSQL", "E-Commerce"]
-cover: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=600&fit=crop"
-excerpt: "How I built a full multi-vendor e-commerce platform with product management, shopping cart, and order processing."
-readingTime: 7
+tags: ["Node.js", "Express", "MySQL", "EJS", "Socket.io", "M-Pesa", "Paystack"]
+excerpt: "Splitting one cart into per-vendor orders, real-time rider tracking over Socket.io, and the v2 schema migration I ran mid-build."
+readingTime: 8
 ---
 
-## The Vision
+## The problem
 
-Cdely is a multi-vendor e-commerce platform where multiple sellers can list products and customers can browse, add to cart, and checkout. Think of it as a smaller-scale Jumia or Amazon marketplace.
+A marketplace where several sellers share one storefront breaks the assumptions of a normal cart. When a customer buys from three vendors at once, you owe each vendor their own order, their own inventory decrement, and their own delivery tracking — and the customer expects one checkout, not three.
 
-![Online shopping website on laptop screen](https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=400&fit=crop)
+Cdely is that marketplace built small but honestly: four user types (customer, seller, rider, admin), a 36-table schema, real-time order tracking over Socket.io, and checkout through M-Pesa Daraja STK and Paystack. Source: [github.com/martino49/cdely](https://github.com/martino49/cdely).
 
-## Tech Stack
+## What it does
 
-- **Frontend:** React with Vite, Tailwind CSS
-- **Backend:** Node.js + Express
-- **Database:** PostgreSQL with Prisma ORM
-- **Auth:** JWT with role-based access
-- **Deployment:** Vercel (frontend) + Render (backend)
+- **Multi-vendor catalog** — sellers manage their own products, inventory, and storefront presence; admins approve sellers
+- **Cart splitting** — one cart becomes separate per-vendor orders at checkout, with inventory decremented per line
+- **Order lifecycle** — pending → confirmed → shipped → delivered, trackable by both sides
+- **Real-time tracking** — Socket.io pushes order status and rider movement, so customers watch delivery instead of refreshing
+- **Notifications** — email via Nodemailer, SMS via Twilio at order transitions
 
-## Key Features
+## Key decisions and their tradeoffs
 
-### 1. Multi-Vendor System
+### One users table, four user types
 
-Each vendor has their own dashboard to manage products, view orders, and track sales. The admin can approve vendors and monitor the marketplace.
+The schema uses a single `users` table with a `user_type` ENUM (`customer`, `seller`, `rider`, `admin`) and role-specific tables extending it.
 
-![Vendor dashboard showing product management](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop)
+**The tradeoff:** every authentication path is single and every query that filters by user type is a string comparison against an ENUM — cheap, but it puts the burden of "which type is this" on application discipline rather than the schema. Separate tables per role would have enforced isolation structurally and cost four join patterns and four auth flows. For four roles with mostly shared identity data, I chose the smaller surface.
 
-### 2. Product Management
+### Two schema generations of the same 36 tables, migrated by hand
 
-Vendors can add products with images, descriptions, prices, and inventory counts. Products are organized by categories.
+The repo carries `schema.sql` and `schemav2.sql` — two generations of the same 36-table design (identical table sets, differing in later column/enum work), with `migrate.js` moving a database forward and `verify_seed.js` checking the result.
 
-![Product listing page with multiple items](https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&h=400&fit=crop)
+**The tradeoff:** the migration path is hand-rolled JavaScript against raw SQL files, not a versioned migration framework — so there's no down-path, no ordered history, and no test that a v1 database becomes a correct v2 database automatically. It worked; it also doesn't generalize, and having two schema files describing the same tables is debt a reviewer will notice in the first minute.
 
-### 3. Shopping Cart & Checkout
+### Socket.io alongside the Express app
 
-Customers can add products from multiple vendors to a single cart. The checkout process handles payment and creates separate orders per vendor.
+Real-time tracking lives on a Socket.io server colocated with the API, emitting order and rider events on state change.
 
-![Shopping cart interface on screen](https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=400&fit=crop)
+**The tradeoff:** websockets make the server stateful — a single instance now carries connection state, so horizontal scaling needs a sticky or an adapter. The alternative (client polling every few seconds) would have been stateless and simpler to scale, but delivery tracking is exactly the case where a few seconds of staleness ruins the feature.
 
-### 4. Order Processing
+### Two payment rails, not one
 
-Orders go through a lifecycle: pending → confirmed → shipped → delivered. Both vendors and customers can track order status.
+Checkout integrates M-Pesa Daraja STK Push **and** Paystack.
 
-![Order tracking and shipping status](https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=800&h=400&fit=crop)
+**The tradeoff:** two integrations is double the callback, reconciliation, and failure-path work. One rail would have been half the effort — but the mobile-money-first market and the card-paying minority are both real customers, and shipping only one would have quietly excluded a payment method the platform exists to serve.
 
-## Database Design
+## Results
 
-The PostgreSQL schema handles:
-- Users with roles (customer, vendor, admin)
-- Products with categories and images
-- Orders with line items from multiple vendors
-- Inventory tracking
+- 36-table relational schema with four user types
+- 57 route handlers across marketplace, seller, rider, and admin surfaces
+- Cart-splitting checkout with per-vendor orders and inventory decrement
+- Real-time order/delivery tracking over Socket.io
+- M-Pesa Daraja STK Push + Paystack payments
+- Socket.io + Winston logging, Nodemailer/Twilio notifications, documented schema and setup (`docs/API.md`, `DB_SCHEMA.md`, `SETUP.md`)
 
-![Database schema diagram](https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&h=400&fit=crop)
+## Known limitations and what I'd do differently
 
-## Challenges
+1. **No public deployment.** FinMate and EduLMS are live; Cdely is source-only — the hosting credentials for the Socket.io instance and the two payment callbacks aren't provisioned yet. It is the clearest gap in the project.
+2. **No automated tests.** 57 route handlers and zero test files; the cart-splitting logic in particular deserves unit tests around the order/inventory boundaries.
+3. **Hand-rolled migration instead of a framework.** Two schema generations moved forward by `migrate.js` alone — no ordered history, no down-path, no verification that a v1 database migrates to a correct v2. A versioned migration tool is the correct answer.
+4. **Websocket statefulness isn't addressed.** No sticky sessions or Redis adapter is configured, so the real-time layer is currently single-instance by accident rather than by design.
+5. **Last pushed February 2026.** The project has been dormant since; the honest position is that it's a strong build that hasn't been maintained — a maintenance pass with dated commits is the fix, not another feature.
 
-- **Multi-vendor cart:** Splitting a single cart into per-vendor orders during checkout
-- **Image uploads:** Handling multiple product images with proper compression
-- **Inventory management:** Preventing overselling when multiple customers buy simultaneously
+---
 
-![Code review and debugging session](https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop)
-
-## What I Learned
-
-Building Cdely taught me about complex database relationships, transaction management, and the intricacies of multi-vendor marketplace logic.
+*Stack: Node.js + Express, MySQL, EJS, express-session, Socket.io, M-Pesa Daraja STK, Paystack, Nodemailer, Twilio. Repository: [github.com/martino49/cdely](https://github.com/martino49/cdely).*

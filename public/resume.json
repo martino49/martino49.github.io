@@ -6,7 +6,7 @@
     "image": "/avatar.jpg",
     "email": "omondo906@gmail.com",
     "phone": "+254 116 309 194",
-    "summary": "Year 2 BSIT student at Karatina University and a full-stack developer who\nbuilds real software, not tutorials. Completed full-stack web development\ntraining at Eldohub (August 2025), then kept building — 65+ repos and\nprojects, several worked on with other developers. Delivered a paid client\nproject (a React fundraising app, PERN stack) from idea to deployment.\n\nStrengths: full-stack web development (React, Express, Node, PostgreSQL/MySQL)\nand Android development (Kotlin), with real payment integrations (M-Pesa,\nPaystack, PayPal, Stripe) and deployments on Vercel, Render and AlwaysData.\n\nI don't claim years of experience I don't have — I claim shipped projects,\nworking payments, and the discipline to deliver on time.\n",
+    "summary": "Year 2 BSIT student at Karatina University and a full-stack developer who\nbuilds real software, not tutorials. Completed full-stack web development\ntraining at Eldohub (August 2025), then kept building — public\nrepositories and projects, several worked on with other developers. Delivered a paid client\nproject (a React fundraising app, PERN stack) from idea to deployment.\n\nStrengths: full-stack web development (React, Express, Node, PostgreSQL/MySQL)\nand Android development (Kotlin), with real payment integrations (M-Pesa,\nPaystack, PayPal, Stripe) and deployments on Vercel, Render and AlwaysData.\n\nI don't claim years of experience I don't have — I claim shipped projects,\nworking payments, and the discipline to deliver on time.\n",
     "location": {
       "city": "Nairobi",
       "region": "Kenya"
@@ -34,7 +34,7 @@
       "highlights": [
         "Delivered first paid client project (React fundraising app, PERN stack)",
         "Built and maintain 7 portfolio projects across web, Android, and desktop",
-        "65+ repos of self-driven projects incl. payment integrations"
+        "Original public projects incl. payment integrations — all linked below"
       ]
     }
   ],
@@ -126,7 +126,7 @@
     },
     {
       "name": "EDU LMS — Learning Management System",
-      "description": "5-role LMS: courses, assignments, grading, attendance, fee payments, audit logging. Security-first: helmet CSP, rate-limited auth, validated inputs — with a passing Jest + supertest suite.",
+      "description": "4-role LMS: courses, assignments, grading, attendance, fee payments, audit logging. Security-first: helmet CSP, rate-limited auth, validated inputs.",
       "keywords": [
         "Node.js",
         "Express",
@@ -173,7 +173,7 @@
         "Supabase",
         "Vercel"
       ],
-      "url": "https://github.com/martino49/fundraising-app"
+      "url": ""
     },
     {
       "name": "LiteLink — PC ↔ Android Companion Suite",

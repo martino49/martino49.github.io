@@ -9,8 +9,8 @@ Nairobi, Kenya · +254 116 309 194 · omondo906@gmail.com · [Github](https://gi
 
 Year 2 BSIT student at Karatina University and a full-stack developer who
 builds real software, not tutorials. Completed full-stack web development
-training at Eldohub (August 2025), then kept building — 65+ repos and
-projects, several worked on with other developers. Delivered a paid client
+training at Eldohub (August 2025), then kept building — public
+repositories and projects, several worked on with other developers. Delivered a paid client
 project (a React fundraising app, PERN stack) from idea to deployment.
 
 Strengths: full-stack web development (React, Express, Node, PostgreSQL/MySQL)
@@ -42,7 +42,7 @@ ships small and often.
 
 - Delivered first paid client project (React fundraising app, PERN stack)
 - Built and maintain 7 portfolio projects across web, Android, and desktop
-- 65+ repos of self-driven projects incl. payment integrations
+- Original public projects incl. payment integrations — all linked below
 
 ## Projects
 
@@ -52,7 +52,7 @@ Full finance platform for individuals and teams: expenses, budgets, savings, pla
 **Tags:** Node.js, Express, EJS, MySQL, JWT, Chart.js
 
 ### [EDU LMS — Learning Management System](https://edulms-iota.vercel.app)
-5-role LMS: courses, assignments, grading, attendance, fee payments, audit logging. Security-first: helmet CSP, rate-limited auth, validated inputs — with a passing Jest + supertest suite.
+4-role LMS: courses, assignments, grading, attendance, fee payments, audit logging. Security-first: helmet CSP, rate-limited auth, validated inputs.
 
 **Tags:** Node.js, Express, EJS, MySQL, Jest
 
@@ -66,7 +66,7 @@ Farmer/buyer/supplier marketplace with product listings, orders, reviews. Real-t
 
 **Tags:** Node.js, Express, EJS, MySQL, Socket.io
 
-### [Fundraising App — Paid Client Work](https://github.com/martino49/fundraising-app)
+### Fundraising App — Paid Client Work
 Built with a friend for a real client: user accounts, campaign pages, donations, and an admin view. My first paid project and proof of taking an idea from zero to deployed.
 
 **Tags:** React, Node.js, Express, PostgreSQL, Supabase, Vercel

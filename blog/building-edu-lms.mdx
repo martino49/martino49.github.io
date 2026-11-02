@@ -1,67 +1,69 @@
 ---
 title: "Building EDU LMS: A Secure Learning Management System"
 date: "2026-07-12"
-tags: ["React", "Node.js", "PostgreSQL", "LMS"]
-cover: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=1200&h=600&fit=crop"
-excerpt: "How I built a secure learning management system with JWT authentication, role-based access, and course management."
-readingTime: 5
+tags: ["Node.js", "Express", "MySQL", "EJS", "RBAC", "M-Pesa"]
+excerpt: "Four roles, fee payments over M-Pesa Daraja STK Push, and why this project chose server-side sessions over the stateless JWT I used in FinMate."
+readingTime: 8
 ---
 
-## The Challenge
+## The problem
 
-EDU LMS is a learning management system built for educational institutions. The challenge was creating a secure platform with proper authentication and role-based access for students, instructors, and administrators.
+Schools in Kenya run fees, grades, attendance, and course material in a mix of spreadsheets, WhatsApp groups, and paper receipts. Collecting fees alone means chasing M-Pesa messages and matching them to student names by hand.
 
-![Students using laptops in classroom](https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&h=400&fit=crop)
+EDU LMS puts all of that in one system with four role areas — admin, instructor, student, and finance officer — where fee payments run over M-Pesa Daraja STK Push and every record is attributable. It is live at [edulms-iota.vercel.app](https://edulms-iota.vercel.app), source at [EduLMS](https://github.com/martino49/EduLMS).
 
-## Tech Stack
+## What it does
 
-- **Frontend:** React with Tailwind CSS
-- **Backend:** Node.js + Express
-- **Database:** PostgreSQL
-- **Auth:** JWT with refresh tokens
-- **File Storage:** Cloudinary
+- **Courses and content** — instructors create courses, materials, and assignments; students enroll and submit
+- **Grading and attendance** — gradebooks, grade entry, attendance records and reports
+- **Finance** — fee structures, invoices, fee statements, payment verification, reconciliation
+- **Notifications and audit log** — system-wide notifications; an audit table attributing every action
 
-## Security Features
+The finance officer area is where the domain shows: pending payments, verified payments, reconciliation, and manual entry are separate flows because a mobile-money payment is only trustworthy once it's verified against the provider callback.
 
-### 1. JWT Authentication
+## Key decisions and their tradeoffs
 
-The system uses JWT tokens with refresh token rotation. Access tokens expire after 15 minutes, and refresh tokens are stored httpOnly cookies.
+### Server-side sessions, not stateless JWTs
 
-![Security concept with lock icon](https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=400&fit=crop)
+FinMate — my other role-based project — uses stateless JWT in an HTTP-only cookie. This one uses Passport-local with server-side sessions via express-mysql-session, stored in the same MySQL database.
 
-### 2. Role-Based Access Control
+**The tradeoff:** sessions require a session store to provision, back up, and scale; stateless JWTs require none of that. What sessions buy here is instant revocation and no token-refresh machinery — meaningful when the users are students who log in once per term on shared lab machines. Same problem class, opposite solution, chosen per project rather than by habit.
 
-Three roles with different permissions:
-- **Admin:** Full system access, user management
-- **Instructor:** Course creation, student management
-- **Student:** Course enrollment, content access
+### Runtime schema creation on boot
 
-![User role management interface](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop)
+`config/database.js` creates the 18 tables and 21 foreign-key constraints on startup if they don't exist; `migrate.js` moves an existing database forward.
 
-### 3. Input Validation
+**The tradeoff:** runtime DDL has no down-migration and permits schema drift; versioned migrations cost setup time. This project needs a schema that survives fresh deploys with zero manual steps, so the boot-time path is worth it — and it's the same call I made in FinMate, which is itself telling about what I'd do with a real release pipeline.
 
-All user inputs are validated with Joi schemas to prevent injection attacks and ensure data integrity.
+### EJS with per-role layout shells
 
-![Code review and validation logic](https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop)
+Four layout partials (admin, finance, instructor, student) wrap the views; the sidebar and data scope differ per role but the component code doesn't fork.
 
-## Course Management
+**The tradeoff:** no client-side router means navigations cost a round trip; the win is that role-specific rendering happens in one place on the server, so a finance officer can never render an instructor's data through a client-side state bug.
 
-Instructors can:
-- Create and edit courses with modules
-- Upload videos, documents, and quizzes
-- Track student progress
-- Grade assignments
+### M-Pesa Daraja STK Push for fees
 
-![Online course dashboard with progress tracking](https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&h=400&fit=crop)
+Fees are initiated server-side with an STK push, and payment status flows through callback → pending → verified → reconciled.
 
-## Challenges
+**The tradeoff:** async payment callbacks require idempotent handling and a reconciliation surface — more work than a card form. The reason it's worth it: STK Push is how people here actually pay. Integrating Stripe because it's easier to code would be optimizing for the developer, not the user.
 
-- **Token refresh:** Implementing secure refresh token rotation
-- **File uploads:** Handling large video files with progress tracking
-- **Real-time updates:** WebSocket connections for live notifications
+## Results
 
-![WebSocket connection monitoring](https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop)
+- 4 role areas with permission-scoped routes
+- 253 route handlers across admin, finance, instructor, and student surfaces
+- 18 tables, 21 foreign-key constraints
+- Fee payment flow with callback verification and reconciliation
+- Security: Helmet headers, express-rate-limit, hashed credentials, session-based auth with revocation
+- Live in production
 
-## What I Learned
+## Known limitations and what I'd do differently
 
-EDU LMS deepened my understanding of security patterns, file handling, and building production-ready authentication systems.
+1. **No automated tests.** Zero test files in the repo — the `tests/` directory holds fixtures only. The permission guards and payment states were validated by hand; that doesn't scale and it's the first thing I'd fix (Jest + supertest against the role guards, then the STK callback states).
+2. **Runtime DDL instead of migrations.** Same debt as FinMate: fine for single-environment deploys, a real hazard once more than one database holds this schema.
+3. **No CI in this repo.** Lint, typecheck, and tests should gate every push — the portfolio repo has this pipeline; this project doesn't yet.
+4. **Rate limiting is global per IP.** A shared school network behind one NAT gets throttled as a single client; per-account limits would fit the usage pattern better.
+5. **The single MySQL instance is a single point of failure.** Sessions live in the database, so if the database is down, nobody logs in — a replica or an external session store would decouple that.
+
+---
+
+*Stack: Node.js + Express, MySQL, EJS, Passport-local sessions, Helmet, express-rate-limit, M-Pesa Daraja STK Push. Repository: [github.com/martino49/EduLMS](https://github.com/martino49/EduLMS) — live: [edulms-iota.vercel.app](https://edulms-iota.vercel.app).*
