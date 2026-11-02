@@ -112,7 +112,7 @@ Nairobi is being actively recruited by European firms right now, so "available, 
 Docker: Dockerfile + compose stack for FinMateV2 shipped 2026-11-02 (node:20-slim production image, healthchecked MySQL, INIT_DB seeding). YAML validated locally; `docker compose up` not yet run by hand — Docker is not installed on the build machine.
 - [ ] OOP/design patterns: refactor one backend into explicit layers, documented
 AI-assisted development: `blog/ai-assisted-development.mdx` published 2026-11-02 — validation-first account (where it helped, where it was confidently wrong about his names, the gate habit). Addresses the spec's AI requirement directly.
-Data structures & algorithms: `martino49/dsa-practice` created 2026-11-02 — 4 verified solutions, 15 tests passing, topics set for recruiter search. Ongoing: the spec wants 100+ problems with dated commits, which is sustained practice rather than a one-off task; the public repo now exists to hold it.
+Data structures & algorithms: `martino49/dsa-practice` created 2026-11-02 — 14 verified problems across arrays, hash, two-pointers, binary-search, sliding-window, DP, intervals, linked-lists, trees; 62 tests passing on `node --test`, committed in technique-grouped commits. Ongoing: the spec wants sustained dated practice toward 100+ problems — the repo is built and public, the count grows with his own work
 - [ ] Open source: 1–2 merged external PRs
 
 ### P4 — Credibility fixes
