@@ -103,8 +103,7 @@ Nairobi is being actively recruited by European firms right now, so "available, 
 
 ### P2 — One flagship, senior-shaped project
 
-- [x] Case-study posts exist (building-finmate / building-edu-lms / building-cdely)
-- [ ] **Reshape them**: currently "Idea → Tech Stack → Key Features"; the screening lens wants problem → approach → **tradeoffs → outcome → known limitations**
+- [x] **Reshape the flagship post**: `building-finmate.mdx` rewritten 2026-11-02 into problem → key decisions & tradeoffs → results → known limitations — every number verified against the repo (5 roles, ~20 permissions, 213 route handlers, 16 tables/14 FKs, 24h httpOnly JWT, 100 req/15 min API + 10/15 min auth limiters); kept the screenshot evidence. Remaining: edu-lms and cdely posts still in the old shape
 - [ ] Public maintenance cadence: FinMateV2 last pushed 2026-08-31 — releases or real bug-fix commits, not a burst
 
 ### P3 — Close the cheap spec gaps
