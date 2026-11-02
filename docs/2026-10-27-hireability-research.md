@@ -103,7 +103,8 @@ Nairobi is being actively recruited by European firms right now, so "available, 
 
 ### P2 — One flagship, senior-shaped project
 
-- [x] **Reshape the flagship post**: `building-finmate.mdx` rewritten 2026-11-02 into problem → key decisions & tradeoffs → results → known limitations — every number verified against the repo (5 roles, ~20 permissions, 213 route handlers, 16 tables/14 FKs, 24h httpOnly JWT, 100 req/15 min API + 10/15 min auth limiters); kept the screenshot evidence. Remaining: edu-lms and cdely posts still in the old shape
+- [x] **Reshape the flagship post**: `building-finmate.mdx` rewritten 2026-11-02 into problem → key decisions & tradeoffs → results → known limitations — every number verified against the repo (5 roles, ~20 permissions, 213 route handlers, 16 tables/14 FKs, 24h httpOnly JWT, 100 req/15 min API + 10/15 min auth limiters); kept the screenshot evidence
+- [x] **Reshape edu-lms and cdely posts** (2026-11-02): both corrected to their real stacks (the old posts claimed React/PostgreSQL/Prisma/React-Vite — the repos are Express/EJS/MySQL) and given the same decisions/tradeoffs/limitations structure. EduLMS: 4 roles, 253 handlers, 18 tables/21 FKs, sessions tradeoff vs FinMate's JWT. Cdely: 4 user types, 36 tables, 57 handlers, cart-splitting, Socket.io, dual payments — with the honest limitation that it has no public deployment yet
 - [ ] Public maintenance cadence: FinMateV2 last pushed 2026-08-31 — releases or real bug-fix commits, not a burst
 
 ### P3 — Close the cheap spec gaps
