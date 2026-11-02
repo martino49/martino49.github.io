@@ -1,157 +1,79 @@
 ---
 title: "Building FinMate: A Full-Stack Finance Platform"
 date: "2026-08-15"
-tags: ["Node.js", "Express", "MySQL", "Full-Stack"]
+tags: ["Node.js", "Express", "MySQL", "Full-Stack", "RBAC"]
 cover: "/images/finmate/01-login.png"
-excerpt: "How I built a role-based finance management system with expense tracking, budgets, and savings goals — from concept to deployment."
-readingTime: 6
+excerpt: "How I designed a 5-role finance platform: the RBAC permission matrix, the tradeoffs behind EJS + JWT cookies + auto-schema deploys, and what I'd do differently."
+readingTime: 9
 ---
 
-## The Idea
+## The problem
 
-FinMate started as a personal project. I needed a way to track my expenses, set budgets, and manage savings goals — but most finance apps were either too complex or too simple.
+Expense trackers fall into two camps: personal apps with no concept of a team, and enterprise finance suites that assume you have a finance department. When I needed to track my own spending while coordinating shared costs in a small team, neither fit — I needed one system where an individual user tracks personal budgets, a team leader approves their members' expenses, and an admin sees the whole picture, without five separate logins.
+
+That requirement — one platform, two very different usage modes — drove every architectural decision in this project. FinMate is the result: live at [fin-mate-three.vercel.app](https://fin-mate-three.vercel.app), with the source at [FinMateV2](https://github.com/martino49/FinMateV2).
+
+## What it does
+
+Five roles — super admin, admin, team leader, team member, individual user — each with a dedicated dashboard and permission-guarded routes. Expenses with approval workflows, budgets per period, savings goals, income tracking, and Chart.js analytics.
 
 ![FinMate Login Page — clean, branded authentication with navy/teal theme](/images/finmate/01-login.png)
 
-I wanted to build something that could work for both individuals and teams, with proper role-based access control.
-
-## Tech Stack
-
-- **Frontend:** EJS templates with Bootstrap 5 and Chart.js
-- **Backend:** Node.js + Express
-- **Database:** MySQL with auto-schema creation
-- **Auth:** JWT with HTTP-only cookies, role-based access control (5 roles)
-- **Security:** Helmet, rate limiting, input sanitization, compression
-
-## Key Features
-
-### 1. Role-Based Access Control
-
-The system has 5 roles: Super Admin, Admin, Team Leader, Team Member, and Individual User. Each role has a dedicated dashboard and permission-guarded routes.
-
 ![Individual User Dashboard — overview of daily expenses, budgets, savings progress, and recent transactions](/images/finmate/02-user-dashboard.png)
 
-### 2. Expense Tracking
-
-Users can log expenses with categories, dates, and amounts. The dashboard shows spending trends with interactive charts, and filters let you drill down by period and category.
-
-![Expense Management — full CRUD with filters, summary stats, and category breakdown](/images/finmate/03-user-expenses.png)
-
-### 3. Budget Management
-
-Set monthly, weekly, or yearly budgets per category. The system tracks actual vs. planned spending and shows progress bars for each budget.
-
-![Budget Management — create, edit, and track budgets with progress indicators](/images/finmate/04-user-budgets.png)
-
-### 4. Savings Goals
-
-Create savings goals with target amounts and deadlines. Track progress over time with visual indicators and make deposits toward each goal.
-
-![Savings Goals — set targets, track deposits, and monitor progress](/images/finmate/05-user-savings.png)
-
-### 5. Income Tracking
-
-Record income by source and category. Filter by status (pending, confirmed) and time period to get a clear picture of cash flow.
-
-![Income Tracking — log and manage income sources with status filters](/images/finmate/06-user-incomes.png)
-
-### 6. Analytics Dashboard
-
-Visual analytics with Chart.js for spending patterns, budget utilization, and category breakdowns. Helps users understand where their money goes.
-
-![Analytics — interactive charts showing spending patterns and budget utilization](/images/finmate/07-user-analytics.png)
-
-## Team Collaboration
-
-### Team Leader Dashboard
-
-Team leaders see an overview of their team's activity — pending expenses, total spending, and recent submissions from members.
-
-![Team Leader Dashboard — team overview with pending approvals and spending stats](/images/finmate/08-teamleader-dashboard.png)
-
-### Team Management
-
-Leaders can view their team members, approve or reject expense submissions, and manage team settings.
-
-![Team Management — view members and manage team settings](/images/finmate/09-teamleader-teams.png)
-
-### Expense Approval
-
-Team leaders review and approve/reject expenses submitted by team members, with comments and status tracking.
-
-![Expense Approval — review team member expenses with approve/reject actions](/images/finmate/10-teamleader-expenses.png)
-
-## Admin Panel
-
-### Admin Dashboard
-
-Admins get a system-wide overview: total users, budgets, expenses, pending approvals, and team stats.
-
-![Admin Dashboard — system-wide stats and quick actions](/images/finmate/11-admin-dashboard.png)
-
-### User Management
-
-Full user CRUD with role assignment, team assignment, password resets, and activity history.
-
-![User Management — create, edit, and manage all users with role-based access](/images/finmate/12-admin-users.png)
-
-### Team Administration
-
-Create and manage teams, assign team leaders, and view team performance metrics.
-
-![Team Administration — create teams and assign leaders](/images/finmate/13-admin-teams.png)
-
-### Reports & Analytics
-
-Financial reports with expense stats, budget utilization, monthly trends, category breakdowns, and export to CSV/JSON.
-
-![Reports — financial analytics with export options](/images/finmate/14-admin-reports.png)
-
-## Super Admin
-
-### Platform Dashboard
-
-Super admins have full platform visibility: all users, roles, permissions, audit logs, and system settings.
-
-![Super Admin Dashboard — complete platform overview](/images/finmate/15-superadmin-dashboard.png)
-
-### Role & Permission Management
-
-Manage roles and their permission matrices. Control exactly what each role can do across the system.
+The collaboration layer is where the roles diverge: team leaders approve their members' expenses with comments and status tracking; admins manage users, teams, and platform reports; super admins own the role and permission matrix itself, with audit logs covering every system action.
 
 ![Role Management — configure roles and permissions](/images/finmate/17-superadmin-roles.png)
 
-### Audit Logs
-
-Track all system actions with timestamps, user attribution, and detailed metadata for security and compliance.
-
 ![Audit Logs — track all system activity for security](/images/finmate/18-superadmin-auditlogs.png)
 
-## Challenges
+## Key decisions and their tradeoffs
 
-The biggest challenge was implementing the auto-schema creation on deployment. When the app boots, it checks if the database schema exists and creates it if needed, including seeding default roles, permissions, and role-permission mappings.
+### The permission matrix lives in the database, not the code
 
-Another significant challenge was designing the unified sidebar — a single EJS partial that adapts its navigation based on the user's role, with collapse persistence, mobile responsive overlay, and consistent logout styling across all views.
+Instead of scattering `if (user.role === 'admin')` checks, FinMate stores ~20 named permissions as data and maps them to roles in a join table. Route handlers then ask "does this role hold *this permission*" instead of "is this user *this role*."
 
-## Security
+**The tradeoff:** every guarded request now hits the permission tables, so authorization is a query, not a comparison. A hardcoded role check would be cheaper and impossible to get subtly wrong — this design can misconfigure. What it buys is the ability for a super admin to change what a role can do from the UI without a deploy, which matters when the same codebase powers individual and team modes.
 
-- **Helmet** — Sets secure HTTP headers
-- **Rate limiting** — 100 requests/15min on API routes
-- **Input sanitization** — Strips XSS vectors on mutation routes
-- **JWT + HTTP-only cookies** — Tokens not accessible via JavaScript
-- **bcryptjs** — Password hashing with salt rounds
-- **SQL injection protection** — Parameterized queries throughout
-- **Compression** — gzip response compression
+### JWT in HTTP-only cookies, not server sessions
+
+Stateless auth means no session store to provision, back up, or horizontal-scale — the whole app stays deployable to a single serverless-style target with one MySQL database.
+
+**The tradeoff:** stateless means unrevocable. A stolen token is valid until it expires, and killing a session before expiry isn't possible without extra machinery. I narrowed the exposure: 24-hour `maxAge`, `httpOnly` so JavaScript can't read it, `sameSite: 'lax'` against CSRF, and an audit log for every action so a compromised session is at least attributable.
+
+### Auto-schema creation on boot
+
+The app checks whether the schema exists on startup and creates the 16 tables — constraints, indexes, default roles, permissions, and role-permission mappings included — then seeds. A fresh environment needs a `.env` and a boot, nothing else.
+
+**The tradeoff:** DDL at runtime is acknowledged-ly fragile: there's no down-migration, and schema drift between environments becomes possible. For a solo project with one database and a strict Vercel deploy target, the reliability win of "fresh clone just works" beat migration tooling. For anything with a real release pipeline, I'd use versioned migrations instead.
+
+### Server-rendered EJS over a SPA
+
+Every view is an EJS partial; the sidebar is a single component that adapts to role. There is no client-side router, no global state store, no API hydration layer.
+
+**The tradeoff:** interactions that want instant feedback (chart filters, for example) cost a round trip instead of a local state update. What it bought: one deploy artifact instead of two, no duplicated validation logic between client and server, and a bundle that stays under a few tens of kilobytes.
 
 ## Results
 
-- 5-role RBAC with proper permission guards
-- 209 routes across all roles
-- Real-time charts and visualizations
-- Auto-schema creation on boot
-- Unified responsive sidebar
-- Security hardened (Helmet, rate limiting, sanitization)
+- 5 roles and a ~20-permission matrix enforced at the route layer
+- 213 route handlers across all five roles
+- 16 tables with 14 foreign-key constraints
+- Zero-setup deploy: schema and seed on boot
+- Hardened: Helmet headers, 100 req/15 min API limiter, 10 attempts/15 min auth limiter, input sanitizing on mutation routes, parameterized SQL throughout
+- Live in production, continuously available
 
-## What I Learned
+## Known limitations and what I'd do differently
 
-This project taught me a lot about database design, authentication patterns, role-based access control, and deploying full-stack applications. Building something real — not just a tutorial — was invaluable. The complexity of managing 5 different user roles, each with their own dashboard and permission set, gave me deep appreciation for well-designed authorization systems.
+This is the part I care about, because the tradeoffs above are decisions I'd defend and the items below are debt I wouldn't.
+
+1. **No test suite.** The repo ships with zero automated tests. Every refactor of the RBAC layer was protected only by manual clicking. A Jest + supertest suite against the permission guards would have paid for itself on the second change.
+2. **JWT can't be revoked.** A 24-hour window where a compromised session stays valid is a real exposure. Refresh tokens with a jti denylist are how I'd close it properly.
+3. **Runtime DDL instead of migrations.** Boot-time schema creation works until a schema change lands that an already-deployed database needs. A migrations tool removes that class of incident entirely.
+4. **Secrets have a permissive fallback.** Missing configuration currently falls back to `change-me-in-production` rather than failing fast. Production should refuse to boot on a defaulted secret.
+5. **No CI.** Lint, typecheck, and tests should gate every push; this repo is exactly the kind of project where a broken permission guard ships silently.
+
+The two things this project actually proved to me: that authorization is a data problem before it's a code problem, and that "it deploys in one command" and "it can be changed safely" are different problems — the second one is what testing and migrations buy.
+
+---
+
+*Stack: Node.js + Express, MySQL, EJS, JWT (httpOnly cookies), Helmet, Chart.js. Repository: [github.com/martino49/FinMateV2](https://github.com/martino49/FinMateV2) — live: [fin-mate-three.vercel.app](https://fin-mate-three.vercel.app).*
