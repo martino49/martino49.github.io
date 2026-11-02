@@ -1,0 +1,68 @@
+---
+title: "AI-Assisted Development: Where It Actually Helped Me"
+date: "2026-11-02"
+tags: ["AI", "Workflow", "Development", "Honest Engineering"]
+excerpt: "I rebuilt a portfolio, three case studies, and a demo site in one day with an AI pair. Here's where the AI genuinely paid off, where it cost me time, and the validation habits that made the difference."
+readingTime: 7
+---
+
+## The claim I'm not making
+
+I'm not going to tell you AI writes my code or that I work 10x faster. The interesting question — the one interviewers actually probe — is whether I can validate what these tools produce. That's the whole job of using one well, and the difference shows up in the failure cases, not the demo.
+
+So here's a real day of work, told with the failures left in.
+
+## What we were doing
+
+The goal: audit a portfolio against what recruiters actually check, then fix everything that failed. Concretely — verify every link on the site and profile against a 20-repo GitHub account, remove fabricated numbers from a live demo, correct two project claims that weren't backed by their own repositories, rewrite three blog posts into senior-shaped case studies, and keep a dated audit doc current through all of it.
+
+Most of this work is verification, not creation. That's the part where AI turns out to be genuinely good — and genuinely dangerous.
+
+## Where it genuinely paid off
+
+**1. Systematic verification at scale.**
+
+Checking every URL on a deployed site and a profile README, cross-referenced against the repo list, is grunt work a human skips out of impatience. Done properly it found two dead links (`fundraising-app` on the live site, `matino.vercel.app` in the profile's website field) that had been sitting in front of recruiters for weeks. It also found the thing I value most from that day: **two claims in my own profile README that my repositories didn't back** — an advertised "Jest + supertest suite" in a repo whose `tests/` directory contained only fixtures, and "CI on every push" in a project with no workflow files. I believed those claims were true. The repos said otherwise. Grunt verification beats memory, every time.
+
+**2. Mechanical refactors, with a gate script.**
+
+The production build died with a Node heap limit error on this machine — a wrapper script raising `--max-old-space-size` was a ten-minute fix instead of an afternoon of wrestling with the build config. The pattern that made it work: the AI wrote the script, and the *verification* was mechanical — run `npm run build` with the environment variable cleared, confirm the exit code, check the artifact, run lint, typecheck, and tests. None of that required trusting anything.
+
+**3. Second-pass review on my own writing.**
+
+The three case-study rewrites were the highest-value hour of the day. In each one the AI surfaced tradeoffs I had made implicitly and left undeclared: why FinMate uses stateless JWTs while EduLMS deliberately uses server-side sessions; why the finance flow reconciles mobile-money payments instead of just recording them; why Cdely ships two payment rails instead of one. Real decisions deserve written justifications — "this was a choice, here's what it cost" is exactly the register a senior review reads in.
+
+## Where it cost me time
+
+**1. Confident wrong answers about my own context.**
+
+The sharpest failure of the day: the AI decided the name on my GitHub profile was a typo against the name on my website and told me to "unify the identity." One of the two names wasn't a mistake at all, and I had to correct it back. Nothing in its training told it Martin, Omondo, and Musumba are all my names — but it produced a coherent-sounding recommendation anyway, because a plausible-synthesis failure mode sounds exactly like a real finding.
+
+That's the whole risk in miniature. It found the broken links by checking them; it invented a problem when it stopped checking. The difference wasn't the tool — it was whether a verification step existed for that claim.
+
+**2. The environment fights.**
+
+Roughly an hour went to tooling friction the AI mispredicted: PowerShell stripping quotes inside inline scripts (it broke its own fixes twice before switching to a script file on disk), `NODE_OPTIONS` expanding mid-script, a Windows path with a space breaking a spawned command. Each was obvious to me on sight and invisible to a model producing plausible-looking code. Its guesses at my shell's behavior were wrong in the same direction every time: it assumes a Unix-ish substrate.
+
+**3. Its own messes, which it then had to find.**
+
+Two lint errors in the repo came from a helper script the AI left behind when a previous step failed silently — the same failure class I was auditing out of other people's code, produced by the audit itself. It only caught that because the gate ran after. The gate is the product; the generation is the raw material.
+
+## The habits that made the day work
+
+Worth stating explicitly, since these are the actual methodology:
+
+- **Nothing goes in writing that wasn't read from the artifact.** The "213 route handlers" number in the case study was counted from the code, not remembered. When the count in the old post was wrong, that visible error is why the new number is trustworthy.
+- **Claims get downgraded, not dressed up.** The README could have kept "CI on every push" worded more vaguely. Instead it now claims exactly what exists. Same for a project's "5-role" system that is actually 4 roles.
+- **Every change has a gate.** Lint, typecheck, tests, build — after every meaningful change, not at the end. This is also what caught the AI's own leftovers.
+- **Failures stay in the record.** This post exists because the audit doc keeps dated entries of what failed and why. A day where I only recorded the wins would teach me nothing in a month.
+
+## The honest summary
+
+The uncomfortable truth from this day: AI is excellent at breadth of attention and terrible at distinguishing what I know from what it inferred. It found two links I'd stopped seeing, and invented a problem with my name. Both behaviors come from the same root — it produces fluent text without a cost function for being wrong about my private context.
+
+So the job isn't "review the AI's code." The job is deciding which of its claims are checkable, and checking those before they enter anything a customer, interviewer, or recruiter can see. On the good days that's the difference between an afternoon and an hour. On the bad days it's the difference between shipping a correction to someone's name and catching it because they pushed back.
+
+---
+
+*Everything in this post was verified against the repositories and deployment it describes. Where AI output turned out to be wrong, the wrongness is described — that's the part worth reading.*
