@@ -95,7 +95,7 @@ Nairobi is being actively recruited by European firms right now, so "available, 
 - [ ] Fill profile metadata: location (Nairobi, Kenya), website — manual or after `gh auth refresh -s user`; the bio unification is part of the same PATCH **(new)**
 - [ ] Unify wording: profile bio vs site title (one identity) — manual or with the same PATCH **(new)**
 - [ ] Repo topics — partially present (FinMateV2: nodejs/express/rbac/fintech/mysql; portfolio: react/typescript/vite), add to the rest
-- [ ] Consolidate duplicate repos: `EduLMS` (backs the live demo) vs `edu-lms` (the old divergent copy) — archive or delete `edu-lms` to remove the split identity **(new)**
+- [x] Consolidate duplicate repos: `edu-lms` (the divergent Jan–Apr copy) archived 2026-11-02; `EduLMS` — the repo that actually backs the live demo — kept and verified live (200)
 - [ ] Keep the contribution graph alive — uneven: portfolio 10-27/11-02, EduLMS 11-02, FinMateV2 08-31, FSPEDX 08-15, cdely stale since 02-06
 
 ### P2 — One flagship, senior-shaped project
