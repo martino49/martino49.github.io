@@ -130,10 +130,10 @@ projects:
     caseStudy: "Built a full finance platform with 5-role RBAC, expense tracking, budget management, and savings goals. Used JWT auth with guarded routes, Chart.js for visualizations, and deployed on Vercel with auto-schema creation."
 
   - name: "EDU LMS — Learning Management System"
-    description: "5-role LMS: courses, assignments, grading, attendance, fee payments, audit logging. Security-first: helmet CSP, rate-limited auth, validated inputs — with a passing Jest + supertest suite."
+    description: "4-role LMS: courses, assignments, grading, attendance, fee payments, audit logging. Security-first: helmet CSP, rate-limited auth, validated inputs."
     tags: [Node.js, Express, EJS, MySQL, Jest]
     liveUrl: "https://edulms-iota.vercel.app"
-    repoUrl: "https://github.com/martino49/edu-lms"
+    repoUrl: "https://github.com/martino49/EduLMS"
     featured: true
     screenshots:
   - name: "Cdely — Multi-Vendor E-Commerce & Delivery"
