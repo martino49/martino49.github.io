@@ -67,7 +67,7 @@ Nairobi is being actively recruited by European firms right now, so "available, 
 | Homepage | `martino49.github.io` live, serving the portfolio | **Pass** |
 | Featured project click-through | FinMate and EduLMS both live; **EduLMS demo cleaned on 2026-11-02** — fake stats (500+/50+/100+/95%) replaced with verifiable claims (4 roles, M-Pesa Daraja STK, helmet CSP, rate-limited auth), placeholder contacts replaced with real ones, copyright year now dynamic; cdely remains source-only | **Pass** |
 | Code scan | All project links resolve (fundraising-app removed from the config); FinMateV2 9.8 KB README, EduLMS 1.5 KB, cdely detailed, FSPEDX 4.6 KB; no CI in flagship repos — **the profile README no longer claims it** (claim corrected 2026-11-02; the portfolio repo itself has real lint/typecheck/test/build CI) | **Pass** — honest claims only |
-| GitHub profile | **Verified 2026-11-02 after manual fixes:** 3 repos pinned (FinMateV2, EduLMS, cdely — forks fallback gone), website field fixed to `https://martino49.github.io/`, location set to "Nairobi, Kenya", bio unified with the site identity | **Pass** — nit: profile name field reads "Martin Musumba" vs "Martin Omondo" everywhere else; `martino49.github.io` repo not yet pinned (4th pin available) |
+| GitHub profile | **Verified 2026-11-02 after manual fixes:** 3 repos pinned (FinMateV2, EduLMS, cdely — forks fallback gone), website field fixed to `https://martino49.github.io/`, location set to "Nairobi, Kenya", bio unified with the site identity | **Pass** — `martino49.github.io` repo not yet pinned (4th pin available) |
 | Contactability | Email unified everywhere | **Pass** (email) — website field still wrong |
 
 **Root cause (10-27):** severed chain between proof and profile. **Root cause (11-02), narrowed to manual-only items:** every automatable link/claim defect is fixed; what remains is 5 minutes of web-UI work only the account owner can do (pins, profile fields).
@@ -86,7 +86,7 @@ Nairobi is being actively recruited by European firms right now, so "available, 
 - [x] **Fix the profile website field** — now `https://martino49.github.io/` (verified)
 - [x] Location set to "Nairobi, Kenya" (verified)
 - [x] Bio unified with the site identity (verified: "Full-Stack Web & Android Developer — Node.js, React, TypeScript, Kotlin…")
-- [ ] **Unify the profile name field** — reads "Martin Musumba"; site/resume/README all read "Martin Omondo" (verified 2026-11-02) **(new)**
+- [x] ~~Unify the profile name field~~ — **removed on review, 2026-11-02**: Martin, Omondo, and Musumba are all his real names; the mix across surfaces is his prerogative, not an inconsistency to fix. Not a blocker
 
 ### P1 — GitHub curation
 
