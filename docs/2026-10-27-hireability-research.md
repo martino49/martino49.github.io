@@ -67,7 +67,7 @@ Nairobi is being actively recruited by European firms right now, so "available, 
 | Homepage | `martino49.github.io` live, serving the portfolio | **Pass** |
 | Featured project click-through | FinMate and EduLMS both live; **EduLMS demo cleaned on 2026-11-02** — fake stats (500+/50+/100+/95%) replaced with verifiable claims (4 roles, M-Pesa Daraja STK, helmet CSP, rate-limited auth), placeholder contacts replaced with real ones, copyright year now dynamic; cdely remains source-only | **Pass** |
 | Code scan | All project links resolve (fundraising-app removed from the config); FinMateV2 9.8 KB README, EduLMS 1.5 KB, cdely detailed, FSPEDX 4.6 KB; no CI in flagship repos — **the profile README no longer claims it** (claim corrected 2026-11-02; the portfolio repo itself has real lint/typecheck/test/build CI) | **Pass** — honest claims only |
-| GitHub profile | Pitch README repaired (encoding damage fixed, Jest/CI claims corrected) — but **0 pinned repos still** (forks on first look), website field still 404s at `matino.vercel.app`, location/bio fields still unset | **Partial** — two one-minute manual actions left |
+| GitHub profile | **Verified 2026-11-02 after manual fixes:** 3 repos pinned (FinMateV2, EduLMS, cdely — forks fallback gone), website field fixed to `https://martino49.github.io/`, location set to "Nairobi, Kenya", bio unified with the site identity | **Pass** — nit: profile name field reads "Martin Musumba" vs "Martin Omondo" everywhere else; `martino49.github.io` repo not yet pinned (4th pin available) |
 | Contactability | Email unified everywhere | **Pass** (email) — website field still wrong |
 
 **Root cause (10-27):** severed chain between proof and profile. **Root cause (11-02), narrowed to manual-only items:** every automatable link/claim defect is fixed; what remains is 5 minutes of web-UI work only the account owner can do (pins, profile fields).
@@ -82,8 +82,11 @@ Nairobi is being actively recruited by European firms right now, so "available, 
 - [x] Push FinMate and EduLMS repos publicly with real READMEs
 - [x] Push the portfolio repo itself
 - [x] **Remove the `fundraising-app` dead link** from `portfolio.config.yaml` (2026-11-02; client claim kept as text, unlinked)
-- [ ] **Pin the 4 repos: FinMateV2, EduLMS, cdely, martino49.github.io — MANUAL ONLY** (GitHub API no longer supports repo pinning; do it in the web UI: profile → Customize your pins)
-- [ ] **Fix the profile website field** to `https://martino49.github.io` — MANUAL via web UI, or run `gh auth refresh -h github.com -s user` once and it can be scripted (`matino.vercel.app` 404s — probably should not exist at all; the real site is the Pages URL)
+- [x] **Pin repos** — 3 of 4 done (FinMateV2, EduLMS, cdely; verified via API 2026-11-02). Remaining: pin `martino49.github.io` as the 4th — it is the only repo with CI + tests
+- [x] **Fix the profile website field** — now `https://martino49.github.io/` (verified)
+- [x] Location set to "Nairobi, Kenya" (verified)
+- [x] Bio unified with the site identity (verified: "Full-Stack Web & Android Developer — Node.js, React, TypeScript, Kotlin…")
+- [ ] **Unify the profile name field** — reads "Martin Musumba"; site/resume/README all read "Martin Omondo" (verified 2026-11-02) **(new)**
 
 ### P1 — GitHub curation
 
@@ -137,9 +140,10 @@ Nairobi is being actively recruited by European firms right now, so "available, 
 | Profile README | Links to dead account | Rewritten pitch | **Claims true, encoding repaired** |
 | EduLMS demo | Template, fake stats | Same fake stats live | **Cleaned, verified live** |
 | Email identity | Two emails | Unified | Unified |
-| Pins | None | None | **None — manual action pending** |
-| Link health | Unverified | Two 404s | **Site clean; profile website field 404 remains** |
+| Pins | None | None | **3 of 4 — forks fallback gone** |
+| Link health | Unverified | Two 404s | **All clean (website field fixed)** |
 | Flagship CI | None | None, claimed | **Claim removed, scope corrected** |
+| Profile fields | Empty | Empty | **Location, website, bio all set (verified)** |
 | Inflated claims | Unknown | Several found | **Fixed in config + README** |
 
 **Read on the current state:** the portfolio no longer claims anything it can't prove. The remaining failures are two manual profile actions (pins, website/location fields) and content work (P2 case studies, P3 spec gaps). Those are the only things between the current profile and a clean pass of the 60-second scan.
